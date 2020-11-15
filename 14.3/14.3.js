@@ -5,7 +5,7 @@ function useRequest(url,callback){
   xhr.open('GET',url,true);
   xhr.onload = function () {
     if (xhr.status !=200) {
-      console.log('������ ������: ', xhr.status);
+      console.log('������ ������: ', xhr.status);
     } else {
       const result = JSON.parse(xhr.response);
       if (callback){
@@ -37,11 +37,13 @@ function displayResult(apiData) {
   resultNode.innerHTML = cards;
 }
 btnNode.addEventListener('click',()=> {
-  const value = document.querySelector('.inp').value;
-  if ((Number(value))>=1 && (Number(value))<=10) {
-    console.log(Number(value));
-    useRequest(`https://picsum.photos/v2/list/?limit=${Number(value)}`, displayResult);
+  // Здесь можно немного упростить, и чтобы не использовать каждый раз обертку Number(), один раз применить унарный плюс на значении, считанном из инпута
+  const value = +document.querySelector('.inp').value;
+  if (value >= 1 && value <= 10) {
+    console.log(value);
+    useRequest(`https://picsum.photos/v2/list/?limit=${value}`, displayResult);
   } else {
-    console.log("����� ��� ��������� �� 1 �� 10")
+    console.log("����� ��� ��������� �� 1 �� 10")
+    // Сообщение о неправильном вводе в данном случае лучше выводить не в консоль, а непосредственно в документ, т.к. данное приложение уже рассчитано скорее на обычного пользователя, который как правило не пользуется консолью
   }
 })
